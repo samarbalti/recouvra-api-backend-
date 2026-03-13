@@ -115,7 +115,7 @@ describe('🧾 Invoices - GET /api/v1/invoices', () => {
   });
 });
 
-describe('💰 Payments - POST /api/v1/payments', () => {
+describe(' Payments - POST /api/v1/payments', () => {
   let invoiceId;
 
   beforeEach(async () => {

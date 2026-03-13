@@ -109,6 +109,24 @@ router.post('/', authenticate, validate(invoiceSchema), createInvoice);
  *         required: true
  *         schema:
  *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               dueDate:
+ *                 type: string
+ *                 format: date
+ *                 example: "2026-06-30"
+ *               description:
+ *                 type: string
+ *                 example: "Nouveau délai accordé"
+ *               status:
+ *                 type: string
+ *                 enum: [annule]
+ *                 example: "annule"
  *     responses:
  *       200:
  *         description: Facture mise à jour

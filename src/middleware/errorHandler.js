@@ -11,7 +11,7 @@ const errorHandler = (err, req, res, next) => {
 
   // Erreur de validation Mongoose
   if (err.name === 'ValidationError') {
-    statusCode = 422;
+    statusCode = 422;// Unprocessable Entity mta3 données invalides
     const errors = Object.values(err.errors).map((e) => ({
       field: e.path,
       message: e.message,
@@ -20,12 +20,12 @@ const errorHandler = (err, req, res, next) => {
   }
 
   // CastError (ObjectId invalide)
-  if (err.name === 'CastError') {
-    statusCode = 400;
+  if (err.name === 'CastError') {// ex: GET /invoices/123 (123 n'est pas un ObjectId valide)
+    statusCode = 400;// Bad Request mta3 ObjectId invalide
     message = `Identifiant invalide : ${err.value}`;
   }
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {// Afficher les détails de l'erreur en développement
     console.error(' Erreur:', err);
   }
 
@@ -36,9 +36,9 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-// Middleware 404
+// Middleware 404 Ressource introuvable  
 const notFound = (req, res) => {
-  res.status(404).json({
+  res.status(404).json({// 404 : Not Found
     success: false,
     message: `Route introuvable : ${req.method} ${req.originalUrl}`,
   });

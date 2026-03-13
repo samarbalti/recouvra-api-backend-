@@ -24,7 +24,7 @@ afterEach(async () => {
   await User.deleteMany({});
 });
 
-describe('🔐 Auth - POST /api/v1/auth/register', () => {
+describe(' Auth - POST /api/v1/auth/register', () => {
   it('devrait créer un compte avec des données valides', async () => {
     const res = await request(app).post('/api/v1/auth/register').send({
       name: 'Ahmed Test',
@@ -81,7 +81,7 @@ describe('🔐 Auth - POST /api/v1/auth/register', () => {
   });
 });
 
-describe('🔐 Auth - POST /api/v1/auth/login', () => {
+describe(' Auth - POST /api/v1/auth/login', () => {
   beforeEach(async () => {
     await request(app).post('/api/v1/auth/register').send({
       name: 'Test User',
@@ -121,7 +121,7 @@ describe('🔐 Auth - POST /api/v1/auth/login', () => {
   });
 });
 
-describe('🔐 Auth - GET /api/v1/auth/me', () => {
+describe(' Auth - GET /api/v1/auth/me', () => {
   let token;
 
   beforeEach(async () => {

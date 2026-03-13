@@ -46,7 +46,7 @@ afterEach(async () => {
   await Client.deleteMany({});
 });
 
-describe('👥 Clients - GET /api/v1/clients', () => {
+describe(' Clients - GET /api/v1/clients', () => {
   it('devrait lister les clients (admin)', async () => {
     await Client.create({ name: 'Client A', email: 'a@test.com' });
     await Client.create({ name: 'Client B', email: 'b@test.com' });
@@ -67,7 +67,7 @@ describe('👥 Clients - GET /api/v1/clients', () => {
   });
 });
 
-describe('👥 Clients - POST /api/v1/clients', () => {
+describe(' Clients - POST /api/v1/clients', () => {
   it('devrait créer un client valide', async () => {
     const res = await request(app)
       .post('/api/v1/clients')

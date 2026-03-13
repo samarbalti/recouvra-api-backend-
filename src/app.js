@@ -1,8 +1,8 @@
 const express = require('express');
-const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./config/swagger');
-
+const cors = require('cors');// Pour autoriser les requêtes cross-origin
+const swaggerUi = require('swagger-ui-express');// Pour afficher la documentation Swagger
+const swaggerSpec = require('./config/swagger');//Fichier de configuration Swagger
+// Import des routes de l’API
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const clientRoutes = require('./routes/clientRoutes');
@@ -10,6 +10,7 @@ const invoiceRoutes = require('./routes/invoiceRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const recoveryRoutes = require('./routes/recoveryRoutes');
 const statsRoutes = require('./routes/statsRoutes');
+
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 
 const app = express();
@@ -22,7 +23,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customCss: '.swagger-ui .topbar { display: none }',
   customSiteTitle: 'Recouvra+ API Docs',
 }));
-
+//route simple pour tester si l’API tourne
 app.get('/health', (req, res) => {
   res.status(200).json({
     success: true,

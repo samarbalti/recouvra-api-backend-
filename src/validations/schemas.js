@@ -116,3 +116,4 @@ module.exports = {
   recoveryActionSchema,
   updateRecoveryActionSchema,
 };
+//Joi → sert à valider et filtrer les rôles acceptés.

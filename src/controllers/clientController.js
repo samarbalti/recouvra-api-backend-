@@ -1,9 +1,9 @@
 const Client = require('../models/Client');
 
-// GET /clients
+// GET /clients (Récupérer tous les clients)
 const getAllClients = async (req, res, next) => {
-  try {
-    const { status, search, page = 1, limit = 10 } = req.query;
+  try { 
+    const { status, search, page = 1, limit = 10 } = req.query; //req.query  contient les paramètres envoyés dans l’URL
     const filter = {};
 
     if (status) filter.status = status;
@@ -14,19 +14,19 @@ const getAllClients = async (req, res, next) => {
       filter.assignedAgent = req.user._id;
     }
 
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    const total = await Client.countDocuments(filter);
-    const clients = await Client.find(filter)
+    const skip = (parseInt(page) - 1) * parseInt(limit);//Calculer le nombre de clients à ignorer pour la pagination
+    const total = await Client.countDocuments(filter); //Compter le nombre total de clients selon le filtre
+    const clients = await Client.find(filter) //cherche les clients selon le filtre
       .populate('assignedAgent', 'name email role')
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(parseInt(limit));
+      .sort({ createdAt: -1 }) //trier les clients par date de création (du plus récent au plus ancien)
+      .skip(skip) // ignorer les clients des pages précédentes
+      .limit(parseInt(limit));  //limiter le nombre de clients retournés par page
 
     res.status(200).json({
       success: true,
       data: {
         clients,
-        pagination: { total, page: parseInt(page), limit: parseInt(limit), pages: Math.ceil(total / limit) },
+        pagination: { total, page: parseInt(page), limit: parseInt(limit), pages: Math.ceil(total / limit) }, 
       },
     });
   } catch (error) {
@@ -43,7 +43,7 @@ const getClientById = async (req, res, next) => {
     }
 
     // Agent : vérifier que le client lui appartient
-    if (req.user.role === 'agent' && client.assignedAgent?._id.toString() !== req.user._id.toString()) {
+    if (req.user.role === 'agent' && client.assignedAgent?._id.toString() !== req.user._id.toString()) { //toString() pour comparer les ObjectId de MongoDB
       return res.status(403).json({ success: false, message: 'Accès refusé' });
     }
 
@@ -56,7 +56,7 @@ const getClientById = async (req, res, next) => {
 // POST /clients
 const createClient = async (req, res, next) => {
   try {
-    if (!req.body.assignedAgent) {
+    if (!req.body.assignedAgent) { 
       req.body.assignedAgent = req.user._id;
     }
 
@@ -77,15 +77,19 @@ const updateClient = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Client introuvable' });
     }
 
-    if (req.user.role === 'agent' && client.assignedAgent?.toString() !== req.user._id.toString()) {
+    if (req.user.role === 'agent' && client.assignedAgent?.toString() !== req.user._id.toString()) { 
       return res.status(403).json({ success: false, message: 'Accès refusé' });
     }
-
-    const updatedClient = await Client.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    }).populate('assignedAgent', 'name email role');
-
+// Mettre à jour un client dans MongoDB
+const updatedClient = await Client.findByIdAndUpdate(
+  req.params.id, // l'id du client à modifier (depuis l'URL)
+  req.body,      // les nouvelles données envoyées depuis le frontend
+  {
+    new: true,          
+    runValidators: true 
+  }
+)
+.populate('assignedAgent', 'name email role'); // remplacer l'id de l'agent par ses infos (nom, email, rôle)
     res.status(200).json({ success: true, message: 'Client mis à jour', data: { client: updatedClient } });
   } catch (error) {
     next(error);

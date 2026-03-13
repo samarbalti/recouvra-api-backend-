@@ -9,16 +9,16 @@ const options = {
 
     // Informations sur l'API
     info: {
-      title: 'Mon API de Recouvrement',     // Nom de ton API (original)
+      title: 'Mon API de Recouvrement',     
       version: '1.0.0',                      // Version actuelle
-      description: 'API REST créée par moi pour gérer les factures impayées', // Description du projet
+      description: 'API REST créée par moi pour gérer les factures impayées', 
       contact: {
-        name: 'Samar Balti',                // Ton nom pour montrer que c'est ton travail
-        email: 'samar.balti@example.com',   // Ton email
+        name: 'Samar Balti',                
+        email: 'samar.balti@example.com',  
       },
     },
 
-    // Serveurs où l'API est disponible
+    // defini des  Serveurs où l'API est disponible
     servers: [
       {
         url: 'http://localhost:3000/api/v1', // URL du serveur de dev
@@ -30,7 +30,7 @@ const options = {
     components: {
       // Définition de la sécurité (authentification JWT)
       securitySchemes: {
-        bearerAuth: {
+        bearerAuth: {  //le nom que tu donnes à ce type de sécurité  Tu peux l’utiliser ensuite dans security: [{ bearerAuth: [] }] 
           type: 'http',
           scheme: 'bearer',
           bearerFormat: 'JWT', // JSON Web Token
@@ -56,11 +56,10 @@ const options = {
       },
     },
 
-    // Sécurité globale appliquée à toutes les routes
+    // sécurité yaani token à toutes les routes
     security: [{ bearerAuth: [] }],
   },
 
-  // Chemins vers les fichiers où Swagger va chercher les annotations
   apis: ['./src/routes/*.js'],
 };
 
